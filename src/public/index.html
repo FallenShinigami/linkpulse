@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LinkPulse - URL Shortener & Link Analytics</title>
+  <meta name="description" content="High-performance URL shortener with real-time redirection and click analytics.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+
+    <!-- View 1: Welcome Screen (/ and /welcome) -->
+    <div id="view-welcome" class="view-panel onboarding-view" aria-label="Welcome to LinkPulse" style="display: none;">
+      <header class="onboarding-top-bar">
+        <div class="brand">
+          <div class="brand-logo" aria-hidden="true">LP</div>
+          <div>
+            <span class="brand-title">LinkPulse</span>
+            <p class="brand-subtitle">URL Shortener & Click Analytics</p>
+          </div>
+        </div>
+        <div class="top-bar-right">
+          <div class="header-status">
+            <span class="status-dot" id="welcome-status-dot" aria-hidden="true"></span>
+            <span id="welcome-status-text">Server Online</span>
+          </div>
+        </div>
+      </header>
+
+      <section class="onboarding-hero">
+        <h1 class="onboarding-hero-title">High-Performance Link Shortening & Real-Time Pulse Analytics</h1>
+        <p class="onboarding-hero-desc">
+          Fast, privacy-focused URL dispatching with custom aliases, expiration controls, click caps, and granular telemetry. Built for engineers, operators, and growth teams.
+        </p>
+
+        <div class="onboarding-cta-wrap">
+          <button type="button" id="welcome-get-started-btn" class="btn btn-primary btn-lg">
+            Get Started
+            <svg class="btn-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M3.333 8h9.334M8.667 4l4 4-4 4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="onboarding-features-grid">
+          <div class="feature-card">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+              </svg>
+            </div>
+            <h2 class="feature-title">Sub-Millisecond Engine</h2>
+            <p class="feature-desc">High-throughput HTTP 302 redirection with instant expiration validation and concurrency-safe click cap enforcement.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="20" x2="18" y2="10"></line>
+                <line x1="12" y1="20" x2="12" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="14"></line>
+              </svg>
+            </div>
+            <h2 class="feature-title">Granular Telemetry</h2>
+            <p class="feature-desc">Live click telemetry, real-time referrer breakdowns, browser distributions, and recent audit logs for every link.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+            </div>
+            <h2 class="feature-title">Operational Controls</h2>
+            <p class="feature-desc">Custom branded slugs, instant enable/disable kill switches, and non-destructive link state management.</p>
+          </div>
+        </div>
+
+        <div class="onboarding-footer-text">
+          Local workspace environment · Zero third-party trackers · Embedded SQLite persistence
+        </div>
+      </section>
+    </div>
+
+    <!-- View 2: Dashboard View (/dashboard) -->
+    <div id="view-dashboard" class="view-panel">
+      <!-- Header -->
+      <header class="app-header">
+        <div class="brand">
+          <a href="/dashboard" class="brand-link" aria-label="LinkPulse Dashboard">
+            <div class="brand-logo" aria-hidden="true">LP</div>
+            <div>
+              <h1 class="brand-title">LinkPulse</h1>
+              <p class="brand-subtitle">URL Shortener & Click Analytics</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="header-status">
+          <span class="status-dot" id="system-status-dot" aria-hidden="true"></span>
+          <span id="system-status-text">Checking status...</span>
+        </div>
+      </header>
+
+      <!-- Real-time Metrics (Real Data Only) -->
+      <section class="metrics-strip" aria-label="Overview Metrics">
+        <div class="metric-item">
+          <div class="metric-label">Total Links</div>
+          <div class="metric-value" id="metric-total-links">0</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-label">Total Clicks</div>
+          <div class="metric-value" id="metric-total-clicks">0</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-label">Active Links</div>
+          <div class="metric-value" id="metric-active-links">0</div>
+        </div>
+      </section>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Create Link Section -->
+        <section class="card create-card" aria-labelledby="create-card-title">
+          <h2 id="create-card-title" class="card-title">Create a Short Link</h2>
+          <p class="card-desc">Shorten destination URLs with optional alias, expiration, and click cap rules.</p>
+
+          <form id="create-link-form">
+            <div class="form-group">
+              <label for="destination-url">Destination URL <span class="required" aria-hidden="true">*</span></label>
+              <input 
+                type="url" 
+                id="destination-url" 
+                name="url" 
+                placeholder="https://example.com/target-address" 
+                required
+                autocomplete="off"
+              >
+            </div>
+
+            <button type="button" id="toggle-advanced-btn" class="advanced-toggle-btn" aria-expanded="false" aria-controls="advanced-options-grid">
+              <span class="arrow" aria-hidden="true">&#9654;</span> Advanced Rules (Custom Alias, Click Cap, Expiry)
+            </button>
+
+            <div id="advanced-options-grid" class="options-grid collapsed">
+              <div class="form-group">
+                <label for="custom-alias">Custom Alias</label>
+                <div class="input-prefix-group">
+                  <span class="prefix">/</span>
+                  <input type="text" id="custom-alias" name="customAlias" placeholder="custom-slug" maxlength="30" autocomplete="off">
+                  <div class="smooth-caret" id="custom-alias-caret" aria-hidden="true"></div>
+                </div>
+                <small class="helper-text">3 to 30 alphanumeric characters, hyphens, or underscores.</small>
+              </div>
+
+              <div class="form-group">
+                <label for="click-limit">Click Cap</label>
+                <input type="number" id="click-limit" name="clickLimit" placeholder="e.g. 100" min="1" step="1">
+                <small class="helper-text">Halt redirects once click limit is reached.</small>
+              </div>
+
+              <div class="form-group">
+                <label for="expires-at">Expiration Date</label>
+                <input type="datetime-local" id="expires-at" name="expiresAt">
+                <small class="helper-text">Halt redirects after specified date and time.</small>
+              </div>
+            </div>
+
+            <div id="form-error-banner" class="alert alert-error" role="alert" style="display: none;"></div>
+            <div id="form-success-banner" class="alert alert-success" role="status" style="display: none;"></div>
+
+            <button type="submit" id="submit-btn" class="btn btn-primary">Shorten URL</button>
+          </form>
+        </section>
+
+        <!-- Managed Links Section -->
+        <section class="card table-card" aria-labelledby="managed-links-title">
+          <div class="table-header">
+            <h2 id="managed-links-title" class="card-title">Managed Links</h2>
+            <div class="table-controls">
+              <div class="filter-group" role="group" aria-label="Filter Links by Status">
+                <button type="button" class="filter-btn active" data-filter="all">All</button>
+                <button type="button" class="filter-btn" data-filter="active">Active</button>
+                <button type="button" class="filter-btn" data-filter="disabled">Disabled</button>
+                <button type="button" class="filter-btn" data-filter="limit_reached">Capped</button>
+                <button type="button" class="filter-btn" data-filter="expired">Expired</button>
+              </div>
+              <input type="text" id="search-links-input" class="search-input" placeholder="Filter by slug or URL..." aria-label="Filter links">
+              <button type="button" id="refresh-links-btn" class="btn btn-secondary btn-sm">Refresh</button>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th scope="col">Short Link</th>
+                  <th scope="col">Destination</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Clicks</th>
+                  <th scope="col">Created</th>
+                  <th scope="col" style="text-align: right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="links-tbody">
+                <tr>
+                  <td colspan="6" class="text-center text-muted" style="padding: 2rem;">Loading links...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="table-footer" id="table-pagination">
+            <div class="pagination-info" id="pagination-info" aria-live="polite">Showing 0 of 0 links</div>
+            <div class="pagination-controls">
+              <div class="page-size-selector">
+                <label for="page-size-select">Per page:</label>
+                <select id="page-size-select" class="page-size-select" aria-label="Links per page">
+                  <option value="10" selected>10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                </select>
+              </div>
+              <div class="page-nav">
+                <button type="button" id="prev-page-btn" class="btn btn-secondary btn-sm" aria-label="Previous page" disabled>Previous</button>
+                <span class="page-number-display" id="page-number-display" aria-current="page">Page 1 of 1</span>
+                <button type="button" id="next-page-btn" class="btn btn-secondary btn-sm" aria-label="Next page" disabled>Next</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- Analytics Modal -->
+      <div id="analytics-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title" style="display: none;">
+        <div class="modal-card">
+          <div class="modal-header">
+            <h3 id="modal-title">Link Analytics</h3>
+            <button type="button" id="close-modal-btn" class="close-btn" aria-label="Close dialog">&times;</button>
+          </div>
+          <div class="modal-body" id="modal-content">
+            Loading analytics...
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Skiper9-inspired Stairs Loading Transition Overlay -->
+  <div id="skiper9-preloader" class="skiper9-preloader" aria-hidden="true" style="display: none;">
+    <div class="skiper9-stairs">
+      <div class="skiper9-step" style="--step-index: 0;"></div>
+      <div class="skiper9-step" style="--step-index: 1;"></div>
+      <div class="skiper9-step" style="--step-index: 2;"></div>
+      <div class="skiper9-step" style="--step-index: 3;"></div>
+      <div class="skiper9-step" style="--step-index: 4;"></div>
+    </div>
+    <div class="skiper9-center">
+      <div class="skiper9-brand-mark">LP</div>
+      <div class="skiper9-pulse-bar"></div>
+    </div>
+  </div>
+
+  <!-- Skiper95-inspired Vertical Scroll Progress Indicator -->
+  <aside id="scroll-progress-indicator" class="scroll-progress-wrap" aria-label="Page scroll progress" aria-hidden="true">
+    <div class="scroll-progress-track" id="scroll-progress-track" title="Click to scroll">
+      <div class="scroll-progress-fill" id="scroll-progress-fill"></div>
+      <div class="scroll-progress-thumb" id="scroll-progress-thumb">
+        <span class="scroll-progress-badge" id="scroll-progress-text">0%</span>
+      </div>
+    </div>
+  </aside>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -145,5 +145,14 @@ vite.config.ts.timestamp-*
 # Astro generated types
 .astro/
 
-# Turbo Repo
 .turbo
+
+# SQLite database
+data/*.db
+data/*.db-*
+data/*.sqlite
+data/*.sqlite-*
+*.db
+*.db-*
+*.sqlite
+*.sqlite-*
